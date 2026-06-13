@@ -14,16 +14,158 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          city: string | null
+          consent_given_at: string | null
+          consent_version: string | null
+          created_at: string
+          ekurhuleni_ward: number | null
+          email: string | null
+          first_name: string | null
+          id: string
+          is_registered_voter: boolean
+          member_number: string | null
+          phone: string | null
+          province: string | null
+          rsa_id: string | null
+          rsa_id_last4: string | null
+          street_address: string | null
+          surname: string | null
+          updated_at: string
+          voting_district: string | null
+        }
+        Insert: {
+          city?: string | null
+          consent_given_at?: string | null
+          consent_version?: string | null
+          created_at?: string
+          ekurhuleni_ward?: number | null
+          email?: string | null
+          first_name?: string | null
+          id: string
+          is_registered_voter?: boolean
+          member_number?: string | null
+          phone?: string | null
+          province?: string | null
+          rsa_id?: string | null
+          rsa_id_last4?: string | null
+          street_address?: string | null
+          surname?: string | null
+          updated_at?: string
+          voting_district?: string | null
+        }
+        Update: {
+          city?: string | null
+          consent_given_at?: string | null
+          consent_version?: string | null
+          created_at?: string
+          ekurhuleni_ward?: number | null
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          is_registered_voter?: boolean
+          member_number?: string | null
+          phone?: string | null
+          province?: string | null
+          rsa_id?: string | null
+          rsa_id_last4?: string | null
+          street_address?: string | null
+          surname?: string | null
+          updated_at?: string
+          voting_district?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
-      [_ in never]: never
+      admin_members: {
+        Row: {
+          city: string | null
+          consent_given_at: string | null
+          created_at: string | null
+          ekurhuleni_ward: number | null
+          email: string | null
+          first_name: string | null
+          id: string | null
+          is_registered_voter: boolean | null
+          member_number: string | null
+          phone: string | null
+          province: string | null
+          rsa_id_masked: string | null
+          street_address: string | null
+          surname: string | null
+          voting_district: string | null
+        }
+        Insert: {
+          city?: string | null
+          consent_given_at?: string | null
+          created_at?: string | null
+          ekurhuleni_ward?: number | null
+          email?: string | null
+          first_name?: string | null
+          id?: string | null
+          is_registered_voter?: boolean | null
+          member_number?: string | null
+          phone?: string | null
+          province?: string | null
+          rsa_id_masked?: never
+          street_address?: string | null
+          surname?: string | null
+          voting_district?: string | null
+        }
+        Update: {
+          city?: string | null
+          consent_given_at?: string | null
+          created_at?: string | null
+          ekurhuleni_ward?: number | null
+          email?: string | null
+          first_name?: string | null
+          id?: string | null
+          is_registered_voter?: boolean | null
+          member_number?: string | null
+          phone?: string | null
+          province?: string | null
+          rsa_id_masked?: never
+          street_address?: string | null
+          surname?: string | null
+          voting_district?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "member"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +292,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "member"],
+    },
   },
 } as const
