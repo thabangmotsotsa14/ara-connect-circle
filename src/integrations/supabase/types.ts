@@ -483,24 +483,16 @@ export type Database = {
         }
         Relationships: []
       }
-      vote_tallies: {
-        Row: {
-          issue_id: string | null
-          total: number | null
-          vote_choice: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "votes_issue_id_fkey"
-            columns: ["issue_id"]
-            isOneToOne: false
-            referencedRelation: "issues"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
     }
     Functions: {
+      get_vote_tallies: {
+        Args: { _issue_id?: string }
+        Returns: {
+          issue_id: string
+          total: number
+          vote_choice: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
