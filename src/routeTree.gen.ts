@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as IssuesRouteImport } from './routes/issues'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -34,6 +35,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuizRoute = QuizRouteImport.update({
+  id: '/quiz',
+  path: '/quiz',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -81,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/issues': typeof IssuesRouteWithChildren
   '/privacy': typeof PrivacyRoute
+  '/quiz': typeof QuizRoute
   '/register': typeof RegisterRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
@@ -93,6 +100,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/issues': typeof IssuesRouteWithChildren
   '/privacy': typeof PrivacyRoute
+  '/quiz': typeof QuizRoute
   '/register': typeof RegisterRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
@@ -107,6 +115,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/issues': typeof IssuesRouteWithChildren
   '/privacy': typeof PrivacyRoute
+  '/quiz': typeof QuizRoute
   '/register': typeof RegisterRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
@@ -121,6 +130,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/issues'
     | '/privacy'
+    | '/quiz'
     | '/register'
     | '/sitemap.xml'
     | '/terms'
@@ -133,6 +143,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/issues'
     | '/privacy'
+    | '/quiz'
     | '/register'
     | '/sitemap.xml'
     | '/terms'
@@ -146,6 +157,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/issues'
     | '/privacy'
+    | '/quiz'
     | '/register'
     | '/sitemap.xml'
     | '/terms'
@@ -160,6 +172,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   IssuesRoute: typeof IssuesRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
+  QuizRoute: typeof QuizRoute
   RegisterRoute: typeof RegisterRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
@@ -186,6 +199,13 @@ declare module '@tanstack/react-router' {
       path: '/register'
       fullPath: '/register'
       preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quiz': {
+      id: '/quiz'
+      path: '/quiz'
+      fullPath: '/quiz'
+      preLoaderRoute: typeof QuizRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -277,6 +297,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   IssuesRoute: IssuesRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
+  QuizRoute: QuizRoute,
   RegisterRoute: RegisterRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
