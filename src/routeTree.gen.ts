@@ -15,6 +15,7 @@ import { Route as RegisterRouteImport } from './routes/register'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as IssuesRouteImport } from './routes/issues'
+import { Route as CrisisTrackerRouteImport } from './routes/crisis-tracker'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
@@ -52,6 +53,11 @@ const IssuesRoute = IssuesRouteImport.update({
   path: '/issues',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CrisisTrackerRoute = CrisisTrackerRouteImport.update({
+  id: '/crisis-tracker',
+  path: '/crisis-tracker',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -85,6 +91,7 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/crisis-tracker': typeof CrisisTrackerRoute
   '/issues': typeof IssuesRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/quiz': typeof QuizRoute
@@ -98,6 +105,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/crisis-tracker': typeof CrisisTrackerRoute
   '/issues': typeof IssuesRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/quiz': typeof QuizRoute
@@ -113,6 +121,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/crisis-tracker': typeof CrisisTrackerRoute
   '/issues': typeof IssuesRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/quiz': typeof QuizRoute
@@ -128,6 +137,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/crisis-tracker'
     | '/issues'
     | '/privacy'
     | '/quiz'
@@ -141,6 +151,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/crisis-tracker'
     | '/issues'
     | '/privacy'
     | '/quiz'
@@ -155,6 +166,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/crisis-tracker'
     | '/issues'
     | '/privacy'
     | '/quiz'
@@ -170,6 +182,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  CrisisTrackerRoute: typeof CrisisTrackerRoute
   IssuesRoute: typeof IssuesRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
   QuizRoute: typeof QuizRoute
@@ -220,6 +233,13 @@ declare module '@tanstack/react-router' {
       path: '/issues'
       fullPath: '/issues'
       preLoaderRoute: typeof IssuesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/crisis-tracker': {
+      id: '/crisis-tracker'
+      path: '/crisis-tracker'
+      fullPath: '/crisis-tracker'
+      preLoaderRoute: typeof CrisisTrackerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -295,6 +315,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  CrisisTrackerRoute: CrisisTrackerRoute,
   IssuesRoute: IssuesRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
   QuizRoute: QuizRoute,
