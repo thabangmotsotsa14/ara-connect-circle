@@ -5,11 +5,12 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { ShieldCheck, MapPin, Vote, IdCard, Trash2 } from "lucide-react";
+import { ShieldCheck, MapPin, Vote, IdCard, Trash2, FolderOpen, AlertTriangle, Vote as VoteIcon, Users } from "lucide-react";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { QrShare } from "@/components/qr-share";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({ meta: [{ title: "Member Dashboard — ARAFIRST" }] }),
@@ -21,6 +22,7 @@ type Profile = {
   rsa_id_last4: string | null; ekurhuleni_ward: number | null; province: string | null;
   is_registered_voter: boolean; voting_district: string | null; member_number: string | null;
   consent_given_at: string | null; street_address: string | null; city: string | null;
+  manifesto_alignment: number | null; primary_role: string | null;
 };
 
 function Dashboard() {
@@ -28,6 +30,7 @@ function Dashboard() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [shareUrl, setShareUrl] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -40,6 +43,9 @@ function Dashboard() {
       setProfile(p as Profile | null);
       setIsAdmin(!!roles?.some((r) => r.role === "admin"));
       setLoading(false);
+      if (typeof window !== "undefined") {
+        setShareUrl(`${window.location.origin}/register?ref=${u.user.id.slice(0, 8)}`);
+      }
     })();
   }, []);
 
@@ -98,7 +104,15 @@ function Dashboard() {
           <Stat icon={IdCard} label="RSA ID" value={profile?.rsa_id_last4 ? `********${profile.rsa_id_last4}` : "—"} />
           <Stat icon={MapPin} label="Province" value={profile?.province ?? "—"} sub={profile?.ekurhuleni_ward ? `Ward ${profile.ekurhuleni_ward}` : undefined} />
           <Stat icon={Vote} label="Voter status" value={profile?.is_registered_voter ? "Registered" : "Not registered"} sub={profile?.voting_district ?? undefined} />
-          <Stat icon={ShieldCheck} label="Consent" value={profile?.consent_given_at ? "On file" : "Pending"} sub={profile?.consent_given_at ? new Date(profile.consent_given_at).toLocaleDateString() : undefined} />
+          <Stat icon={ShieldCheck} label="Alignment" value={profile?.manifesto_alignment != null ? `${profile.manifesto_alignment}%` : "—"} sub={profile?.primary_role ?? undefined} />
+        </div>
+
+        {/* Quick actions */}
+        <div className="mt-8 grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-4">
+          <QuickLink to="/vault" icon={FolderOpen} label="Opportunity Vault" sub="Upload CV / business profile" />
+          <QuickLink to="/directory" icon={Users} label="Community Directory" sub="Browse member businesses" />
+          <QuickLink to="/bottlenecks" icon={AlertTriangle} label="Escalation Desk" sub="Log a structural bottleneck" />
+          <QuickLink to="/issues" icon={VoteIcon} label="V.O.T.E. Booklets" sub="Vote on national issues" />
         </div>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-3">
@@ -115,7 +129,16 @@ function Dashboard() {
             </Link>
           </div>
 
-          <div className="border border-border bg-card p-6">
+          <div className="space-y-6">
+            <div className="border border-border bg-card p-6">
+              <h2 className="text-lg font-black uppercase">Share & recruit</h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                QR your friends and family straight into the ARA member database.
+              </p>
+              {shareUrl && <div className="mt-4"><QrShare url={shareUrl} caption="Scan to join ARA" /></div>}
+            </div>
+
+            <div className="border border-border bg-card p-6">
             <h2 className="text-lg font-black uppercase">Privacy controls</h2>
             <p className="mt-2 text-sm text-muted-foreground">
               You can request deletion of all your data at any time (POPIA Right to be Forgotten).
@@ -142,6 +165,7 @@ function Dashboard() {
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
+            </div>
           </div>
         </div>
       </main>
@@ -168,5 +192,15 @@ function Row({ k, v }: { k: string; v: string }) {
       <dt className="text-xs uppercase tracking-widest text-muted-foreground">{k}</dt>
       <dd className="mt-0.5 font-medium">{v}</dd>
     </div>
+  );
+}
+
+function QuickLink({ to, icon: Icon, label, sub }: { to: string; icon: any; label: string; sub: string }) {
+  return (
+    <Link to={to} className="group bg-card p-5 hover:bg-accent/5">
+      <Icon className="h-5 w-5 text-accent" />
+      <div className="mt-3 text-sm font-black uppercase tracking-widest group-hover:text-accent">{label}</div>
+      <div className="mt-1 text-xs text-muted-foreground">{sub}</div>
+    </Link>
   );
 }

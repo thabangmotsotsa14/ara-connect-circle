@@ -150,3 +150,23 @@
     text-transform: uppercase;
   }
 }
+
+/* Low Data Mode — strips heavy visual effects for low-bandwidth users.
+ * Toggle adds `low-data` class to <html>. */
+.low-data * {
+  background-image: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  animation: none !important;
+  transition: none !important;
+}
+.low-data img,
+.low-data video,
+.low-data svg.qr-decorative {
+  opacity: 0.85;
+}
+.low-data .hide-low-data {
+  display: none !important;
+}

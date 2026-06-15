@@ -15,6 +15,8 @@ import { EKURHULENI_WARDS, SA_PROVINCES, CONSENT_VERSION } from "@/lib/wards";
 import { validateRsaId } from "@/lib/luhn";
 import { toast } from "sonner";
 import { ShieldCheck } from "lucide-react";
+import { PERSONA_ATTRIBUTES, PRIMARY_ROLES, INDUSTRY_SECTORS } from "@/lib/personas";
+import { MANIFESTO_QUIZ, scoreQuiz } from "@/lib/manifesto-quiz";
 
 export const Route = createFileRoute("/register")({
   head: () => ({
@@ -46,6 +48,17 @@ function RegisterPage() {
   const [consentComms, setConsentComms] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
+  const [primaryRole, setPrimaryRole] = useState<string>("");
+  const [industry, setIndustry] = useState<string>("");
+  const [skills, setSkills] = useState("");
+  const [personas, setPersonas] = useState<string[]>([]);
+  const [quiz, setQuiz] = useState<Record<string, "aligned" | "opposed" | null>>(() =>
+    Object.fromEntries(MANIFESTO_QUIZ.map((q) => [q.id, null])),
+  );
+
+  const alignment = useMemo(() => scoreQuiz(quiz), [quiz]);
+  const quizComplete = Object.values(quiz).every((v) => v !== null);
+
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
       if (!data.user) {
@@ -74,17 +87,24 @@ function RegisterPage() {
       toast.error("Please select your Ekurhuleni ward (1–112) or choose another province.");
       return;
     }
+    if (!primaryRole) {
+      toast.error("Pick your primary role.");
+      return;
+    }
     setSubmitting(true);
     const { data: u } = await supabase.auth.getUser();
     if (!u.user) {
       navigate({ to: "/auth" });
       return;
     }
+    const skillsArr = skills.split(",").map((s) => s.trim()).filter(Boolean).slice(0, 30);
+    const fullName = [firstName.trim(), surname.trim()].filter(Boolean).join(" ");
     const { error } = await supabase.from("profiles").upsert({
       id: u.user.id,
       email: userEmail,
       first_name: firstName.trim(),
       surname: surname.trim(),
+      full_name: fullName,
       phone: phone.trim() || null,
       rsa_id: rsaId,
       rsa_id_last4: rsaId.slice(-4),
@@ -94,9 +114,20 @@ function RegisterPage() {
       is_registered_voter: isVoter,
       voting_district: isVoter ? district.trim() || null : null,
       ekurhuleni_ward: ward ? parseInt(ward, 10) : null,
+      primary_role: primaryRole as never,
+      industry_sector: industry || null,
+      skills_keywords: skillsArr,
+      manifesto_alignment: quizComplete ? alignment : null,
       consent_given_at: new Date().toISOString(),
       consent_version: CONSENT_VERSION,
     });
+    if (!error && personas.length) {
+      // Replace existing attributes
+      await supabase.from("profile_attributes").delete().eq("profile_id", u.user.id);
+      await supabase.from("profile_attributes").insert(
+        personas.map((p) => ({ profile_id: u.user.id, attribute_type: "persona", attribute_value: p })),
+      );
+    }
     setSubmitting(false);
     if (error) {
       toast.error(error.message);
@@ -164,6 +195,87 @@ function RegisterPage() {
                 </p>
               </div>
             </div>
+          </section>
+
+          {/* Persona */}
+          <section className="border border-border bg-card p-6">
+            <h2 className="text-lg font-black uppercase">Who are you?</h2>
+            <p className="mt-1 text-sm text-muted-foreground">Pick your primary role and then multi-select every persona that applies.</p>
+            <div className="mt-5 grid gap-4 sm:grid-cols-2">
+              <div>
+                <Label>Primary role *</Label>
+                <Select value={primaryRole} onValueChange={setPrimaryRole}>
+                  <SelectTrigger><SelectValue placeholder="Select primary role" /></SelectTrigger>
+                  <SelectContent>
+                    {PRIMARY_ROLES.map((r) => <SelectItem key={r} value={r}>{r}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label>Industry / sector</Label>
+                <Select value={industry} onValueChange={setIndustry}>
+                  <SelectTrigger><SelectValue placeholder="Optional" /></SelectTrigger>
+                  <SelectContent>
+                    {INDUSTRY_SECTORS.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="sm:col-span-2">
+                <Label htmlFor="skills">Skills / keywords (comma-separated)</Label>
+                <Input id="skills" value={skills} onChange={(e) => setSkills(e.target.value)} maxLength={400} placeholder="e.g. welding, accounting, javascript" />
+              </div>
+            </div>
+            <div className="mt-6">
+              <Label className="text-sm">Persona matrix — pick everything that fits</Label>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {PERSONA_ATTRIBUTES.map((p) => {
+                  const on = personas.includes(p);
+                  return (
+                    <button
+                      type="button"
+                      key={p}
+                      onClick={() => setPersonas((curr) => on ? curr.filter((x) => x !== p) : [...curr, p])}
+                      className={`border px-3 py-1.5 text-xs font-bold uppercase tracking-widest transition ${on ? "border-accent bg-accent text-accent-foreground" : "border-border hover:border-accent"}`}
+                    >
+                      {p}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+
+          {/* Manifesto Pulse Check */}
+          <section className="border border-border bg-card p-6">
+            <h2 className="text-lg font-black uppercase">Manifesto Pulse Check</h2>
+            <p className="mt-1 text-sm text-muted-foreground">5 questions. We compute your alignment % and save it to your profile.</p>
+            <ol className="mt-5 space-y-5">
+              {MANIFESTO_QUIZ.map((q, i) => (
+                <li key={q.id} className="border border-border p-4">
+                  <div className="text-xs font-bold uppercase tracking-widest text-accent">Q{i + 1}</div>
+                  <p className="mt-1 font-medium">{q.prompt}</p>
+                  <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                    {(["aligned", "opposed"] as const).map((choice) => {
+                      const label = choice === "aligned" ? q.aligned : q.opposed;
+                      const active = quiz[q.id] === choice;
+                      return (
+                        <button type="button" key={choice}
+                          onClick={() => setQuiz((qz) => ({ ...qz, [q.id]: choice }))}
+                          className={`border p-3 text-left text-sm transition ${active ? "border-accent bg-accent/10 font-bold" : "border-border hover:border-accent/50"}`}>
+                          {label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </li>
+              ))}
+            </ol>
+            {quizComplete && (
+              <div className="mt-5 border-2 border-accent bg-accent/5 p-4 text-center">
+                <div className="text-xs uppercase tracking-widest text-muted-foreground">Your alignment</div>
+                <div className="text-4xl font-black">{alignment}%</div>
+              </div>
+            )}
           </section>
 
           {/* Address */}
