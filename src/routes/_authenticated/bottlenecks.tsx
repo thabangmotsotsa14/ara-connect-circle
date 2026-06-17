@@ -83,9 +83,8 @@ function BottlenecksPage() {
           </div>
           <h1 className="mt-2 text-4xl font-black uppercase tracking-tight sm:text-5xl">Log a bottleneck</h1>
           <p className="mt-3 max-w-2xl text-muted-foreground">
-            Tell ARA leadership what's blocking you. Tickets are aggregated anonymously into the{" "}
-            <Link to="/crisis-tracker" className="font-bold text-accent underline">National Crisis Tracker</Link> —
-            no member identity is ever exposed.
+            Tell ARA Ekurhuleni leadership what's blocking you. Tickets are aggregated
+            internally — no member identity is ever exposed.
           </p>
         </div>
 

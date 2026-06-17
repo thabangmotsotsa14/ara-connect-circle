@@ -23,9 +23,7 @@ export function SiteHeader() {
         </Link>
         <nav className="hidden items-center gap-8 text-sm font-bold uppercase tracking-wide md:flex">
           <Link to="/" className="hover:text-accent">Home</Link>
-          <Link to="/issues" className="hover:text-accent">V.O.T.E.</Link>
-          <Link to="/quiz" className="hover:text-accent">Quiz</Link>
-          <Link to="/crisis-tracker" className="hover:text-accent">Crisis</Link>
+          <Link to="/manifesto-matcher" className="hover:text-accent">Matcher</Link>
           <Link to="/register" className="hover:text-accent">Join</Link>
         </nav>
         <div className="flex items-center gap-2">

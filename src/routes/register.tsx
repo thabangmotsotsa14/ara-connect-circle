@@ -11,12 +11,11 @@ import {
 } from "@/components/ui/select";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { EKURHULENI_WARDS, SA_PROVINCES, CONSENT_VERSION } from "@/lib/wards";
+import { EKURHULENI_WARDS, EKURHULENI_AREAS, CONSENT_VERSION } from "@/lib/wards";
 import { validateRsaId } from "@/lib/luhn";
 import { toast } from "sonner";
 import { ShieldCheck } from "lucide-react";
 import { PERSONA_ATTRIBUTES, PRIMARY_ROLES, INDUSTRY_SECTORS } from "@/lib/personas";
-import { MANIFESTO_QUIZ, scoreQuiz } from "@/lib/manifesto-quiz";
 
 export const Route = createFileRoute("/register")({
   head: () => ({
@@ -38,8 +37,7 @@ function RegisterPage() {
   const [phone, setPhone] = useState("");
   const [rsaId, setRsaId] = useState("");
   const [street, setStreet] = useState("");
-  const [city, setCity] = useState("");
-  const [province, setProvince] = useState<string>("Gauteng");
+  const [area, setArea] = useState<string>("");
   const [isVoter, setIsVoter] = useState(false);
   const [district, setDistrict] = useState("");
   const [ward, setWard] = useState<string>("");
@@ -52,12 +50,6 @@ function RegisterPage() {
   const [industry, setIndustry] = useState<string>("");
   const [skills, setSkills] = useState("");
   const [personas, setPersonas] = useState<string[]>([]);
-  const [quiz, setQuiz] = useState<Record<string, "aligned" | "opposed" | null>>(() =>
-    Object.fromEntries(MANIFESTO_QUIZ.map((q) => [q.id, null])),
-  );
-
-  const alignment = useMemo(() => scoreQuiz(quiz), [quiz]);
-  const quizComplete = Object.values(quiz).every((v) => v !== null);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -83,8 +75,12 @@ function RegisterPage() {
       toast.error(idResult.reason ?? "Invalid RSA ID");
       return;
     }
-    if (province === "Gauteng" && !ward) {
-      toast.error("Please select your Ekurhuleni ward (1–112) or choose another province.");
+    if (!area) {
+      toast.error("Please select your Ekurhuleni town / suburb.");
+      return;
+    }
+    if (!ward) {
+      toast.error("Please select your Ekurhuleni ward (1–112).");
       return;
     }
     if (!primaryRole) {
@@ -109,15 +105,14 @@ function RegisterPage() {
       rsa_id: rsaId,
       rsa_id_last4: rsaId.slice(-4),
       street_address: street.trim() || null,
-      city: city.trim() || null,
-      province,
+      city: area,
+      province: "Gauteng",
       is_registered_voter: isVoter,
       voting_district: isVoter ? district.trim() || null : null,
       ekurhuleni_ward: ward ? parseInt(ward, 10) : null,
       primary_role: primaryRole as never,
       industry_sector: industry || null,
       skills_keywords: skillsArr,
-      manifesto_alignment: quizComplete ? alignment : null,
       consent_given_at: new Date().toISOString(),
       consent_version: CONSENT_VERSION,
     });
@@ -245,75 +240,39 @@ function RegisterPage() {
             </div>
           </section>
 
-          {/* Manifesto Pulse Check */}
-          <section className="border border-border bg-card p-6">
-            <h2 className="text-lg font-black uppercase">Manifesto Pulse Check</h2>
-            <p className="mt-1 text-sm text-muted-foreground">5 questions. We compute your alignment % and save it to your profile.</p>
-            <ol className="mt-5 space-y-5">
-              {MANIFESTO_QUIZ.map((q, i) => (
-                <li key={q.id} className="border border-border p-4">
-                  <div className="text-xs font-bold uppercase tracking-widest text-accent">Q{i + 1}</div>
-                  <p className="mt-1 font-medium">{q.prompt}</p>
-                  <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                    {(["aligned", "opposed"] as const).map((choice) => {
-                      const label = choice === "aligned" ? q.aligned : q.opposed;
-                      const active = quiz[q.id] === choice;
-                      return (
-                        <button type="button" key={choice}
-                          onClick={() => setQuiz((qz) => ({ ...qz, [q.id]: choice }))}
-                          className={`border p-3 text-left text-sm transition ${active ? "border-accent bg-accent/10 font-bold" : "border-border hover:border-accent/50"}`}>
-                          {label}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </li>
-              ))}
-            </ol>
-            {quizComplete && (
-              <div className="mt-5 border-2 border-accent bg-accent/5 p-4 text-center">
-                <div className="text-xs uppercase tracking-widest text-muted-foreground">Your alignment</div>
-                <div className="text-4xl font-black">{alignment}%</div>
-              </div>
-            )}
-          </section>
-
           {/* Address */}
           <section className="border border-border bg-card p-6">
-            <h2 className="text-lg font-black uppercase">Address</h2>
+            <h2 className="text-lg font-black uppercase">Address — City of Ekurhuleni</h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              ARAFIRST is currently organising exclusively across the City of Ekurhuleni Metro.
+            </p>
             <div className="mt-5 grid gap-4 sm:grid-cols-2">
               <div className="sm:col-span-2">
                 <Label htmlFor="street">Street address</Label>
                 <Input id="street" value={street} onChange={(e) => setStreet(e.target.value)} maxLength={255} />
               </div>
               <div>
-                <Label htmlFor="city">City / Town</Label>
-                <Input id="city" value={city} onChange={(e) => setCity(e.target.value)} maxLength={120} />
-              </div>
-              <div>
-                <Label>Province</Label>
-                <Select value={province} onValueChange={setProvince}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    {SA_PROVINCES.map((p) => (
-                      <SelectItem key={p} value={p}>{p}</SelectItem>
+                <Label>Town / Suburb *</Label>
+                <Select value={area} onValueChange={setArea}>
+                  <SelectTrigger><SelectValue placeholder="Select an Ekurhuleni area" /></SelectTrigger>
+                  <SelectContent className="max-h-72">
+                    {EKURHULENI_AREAS.map((a) => (
+                      <SelectItem key={a} value={a}>{a}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
-              {province === "Gauteng" && (
-                <div className="sm:col-span-2">
-                  <Label>Ekurhuleni ward (1–112)</Label>
-                  <Select value={ward} onValueChange={setWard}>
-                    <SelectTrigger><SelectValue placeholder="Select your ward" /></SelectTrigger>
-                    <SelectContent className="max-h-72">
-                      {EKURHULENI_WARDS.map((w) => (
-                        <SelectItem key={w} value={String(w)}>Ward {w}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
+              <div>
+                <Label>Ekurhuleni ward (1–112) *</Label>
+                <Select value={ward} onValueChange={setWard}>
+                  <SelectTrigger><SelectValue placeholder="Select your ward" /></SelectTrigger>
+                  <SelectContent className="max-h-72">
+                    {EKURHULENI_WARDS.map((w) => (
+                      <SelectItem key={w} value={String(w)}>Ward {w}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </section>
 

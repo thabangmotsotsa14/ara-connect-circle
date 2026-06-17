@@ -7,14 +7,8 @@ export function SiteFooter() {
         <div>
           <div className="text-2xl font-black uppercase tracking-tight">ARAFIRST</div>
           <p className="mt-3 max-w-xs text-sm text-background/70">
-            Africa Restoration Alliance — Putting SA first. A member platform for civic
-            engagement, voter mobilisation and transparent communication.
-          </p>
-          <p className="mt-4 text-xs uppercase tracking-widest text-background/60">
-            Powered by{" "}
-            <a href="https://voteparty.co.za" target="_blank" rel="noreferrer" className="text-accent hover:underline">
-              voteparty.co.za
-            </a>
+            Africa Restoration Alliance — Ekurhuleni. A member platform for civic
+            engagement, ward organising and transparent communication.
           </p>
         </div>
         <div>
@@ -23,9 +17,7 @@ export function SiteFooter() {
             <li><Link to="/register" className="hover:text-accent">Become a member</Link></li>
             <li><Link to="/auth" className="hover:text-accent">Member sign in</Link></li>
             <li><Link to="/dashboard" className="hover:text-accent">Dashboard</Link></li>
-            <li><Link to="/issues" className="hover:text-accent">V.O.T.E. Issues</Link></li>
-            <li><Link to="/quiz" className="hover:text-accent">Alignment Quiz</Link></li>
-            <li><Link to="/crisis-tracker" className="hover:text-accent">National Crisis Tracker</Link></li>
+            <li><Link to="/manifesto-matcher" className="hover:text-accent">Ekurhuleni Manifesto Matcher</Link></li>
           </ul>
         </div>
         <div>
