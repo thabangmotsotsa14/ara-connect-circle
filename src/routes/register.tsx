@@ -240,75 +240,39 @@ function RegisterPage() {
             </div>
           </section>
 
-          {/* Manifesto Pulse Check */}
-          <section className="border border-border bg-card p-6">
-            <h2 className="text-lg font-black uppercase">Manifesto Pulse Check</h2>
-            <p className="mt-1 text-sm text-muted-foreground">5 questions. We compute your alignment % and save it to your profile.</p>
-            <ol className="mt-5 space-y-5">
-              {MANIFESTO_QUIZ.map((q, i) => (
-                <li key={q.id} className="border border-border p-4">
-                  <div className="text-xs font-bold uppercase tracking-widest text-accent">Q{i + 1}</div>
-                  <p className="mt-1 font-medium">{q.prompt}</p>
-                  <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                    {(["aligned", "opposed"] as const).map((choice) => {
-                      const label = choice === "aligned" ? q.aligned : q.opposed;
-                      const active = quiz[q.id] === choice;
-                      return (
-                        <button type="button" key={choice}
-                          onClick={() => setQuiz((qz) => ({ ...qz, [q.id]: choice }))}
-                          className={`border p-3 text-left text-sm transition ${active ? "border-accent bg-accent/10 font-bold" : "border-border hover:border-accent/50"}`}>
-                          {label}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </li>
-              ))}
-            </ol>
-            {quizComplete && (
-              <div className="mt-5 border-2 border-accent bg-accent/5 p-4 text-center">
-                <div className="text-xs uppercase tracking-widest text-muted-foreground">Your alignment</div>
-                <div className="text-4xl font-black">{alignment}%</div>
-              </div>
-            )}
-          </section>
-
           {/* Address */}
           <section className="border border-border bg-card p-6">
-            <h2 className="text-lg font-black uppercase">Address</h2>
+            <h2 className="text-lg font-black uppercase">Address — City of Ekurhuleni</h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              ARAFIRST is currently organising exclusively across the City of Ekurhuleni Metro.
+            </p>
             <div className="mt-5 grid gap-4 sm:grid-cols-2">
               <div className="sm:col-span-2">
                 <Label htmlFor="street">Street address</Label>
                 <Input id="street" value={street} onChange={(e) => setStreet(e.target.value)} maxLength={255} />
               </div>
               <div>
-                <Label htmlFor="city">City / Town</Label>
-                <Input id="city" value={city} onChange={(e) => setCity(e.target.value)} maxLength={120} />
-              </div>
-              <div>
-                <Label>Province</Label>
-                <Select value={province} onValueChange={setProvince}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    {SA_PROVINCES.map((p) => (
-                      <SelectItem key={p} value={p}>{p}</SelectItem>
+                <Label>Town / Suburb *</Label>
+                <Select value={area} onValueChange={setArea}>
+                  <SelectTrigger><SelectValue placeholder="Select an Ekurhuleni area" /></SelectTrigger>
+                  <SelectContent className="max-h-72">
+                    {EKURHULENI_AREAS.map((a) => (
+                      <SelectItem key={a} value={a}>{a}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
-              {province === "Gauteng" && (
-                <div className="sm:col-span-2">
-                  <Label>Ekurhuleni ward (1–112)</Label>
-                  <Select value={ward} onValueChange={setWard}>
-                    <SelectTrigger><SelectValue placeholder="Select your ward" /></SelectTrigger>
-                    <SelectContent className="max-h-72">
-                      {EKURHULENI_WARDS.map((w) => (
-                        <SelectItem key={w} value={String(w)}>Ward {w}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
+              <div>
+                <Label>Ekurhuleni ward (1–112) *</Label>
+                <Select value={ward} onValueChange={setWard}>
+                  <SelectTrigger><SelectValue placeholder="Select your ward" /></SelectTrigger>
+                  <SelectContent className="max-h-72">
+                    {EKURHULENI_WARDS.map((w) => (
+                      <SelectItem key={w} value={String(w)}>Ward {w}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </section>
 
