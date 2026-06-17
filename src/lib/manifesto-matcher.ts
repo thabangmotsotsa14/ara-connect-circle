@@ -45,7 +45,6 @@ export const EKURHULENI_STATEMENTS: MatcherStatement[] = [
     justification:
       "Where in-house depots are gridlocked, ARA backs transparent, performance-based PPPs for waste collection — with open contracts and ward-level service-level dashboards.",
   },
-];
   {
     id: "s5",
     theme: "Water security",
