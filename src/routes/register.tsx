@@ -11,12 +11,11 @@ import {
 } from "@/components/ui/select";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { EKURHULENI_WARDS, SA_PROVINCES, CONSENT_VERSION } from "@/lib/wards";
+import { EKURHULENI_WARDS, EKURHULENI_AREAS, CONSENT_VERSION } from "@/lib/wards";
 import { validateRsaId } from "@/lib/luhn";
 import { toast } from "sonner";
 import { ShieldCheck } from "lucide-react";
 import { PERSONA_ATTRIBUTES, PRIMARY_ROLES, INDUSTRY_SECTORS } from "@/lib/personas";
-import { MANIFESTO_QUIZ, scoreQuiz } from "@/lib/manifesto-quiz";
 
 export const Route = createFileRoute("/register")({
   head: () => ({
@@ -38,8 +37,7 @@ function RegisterPage() {
   const [phone, setPhone] = useState("");
   const [rsaId, setRsaId] = useState("");
   const [street, setStreet] = useState("");
-  const [city, setCity] = useState("");
-  const [province, setProvince] = useState<string>("Gauteng");
+  const [area, setArea] = useState<string>("");
   const [isVoter, setIsVoter] = useState(false);
   const [district, setDistrict] = useState("");
   const [ward, setWard] = useState<string>("");
@@ -52,12 +50,6 @@ function RegisterPage() {
   const [industry, setIndustry] = useState<string>("");
   const [skills, setSkills] = useState("");
   const [personas, setPersonas] = useState<string[]>([]);
-  const [quiz, setQuiz] = useState<Record<string, "aligned" | "opposed" | null>>(() =>
-    Object.fromEntries(MANIFESTO_QUIZ.map((q) => [q.id, null])),
-  );
-
-  const alignment = useMemo(() => scoreQuiz(quiz), [quiz]);
-  const quizComplete = Object.values(quiz).every((v) => v !== null);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -83,8 +75,12 @@ function RegisterPage() {
       toast.error(idResult.reason ?? "Invalid RSA ID");
       return;
     }
-    if (province === "Gauteng" && !ward) {
-      toast.error("Please select your Ekurhuleni ward (1–112) or choose another province.");
+    if (!area) {
+      toast.error("Please select your Ekurhuleni town / suburb.");
+      return;
+    }
+    if (!ward) {
+      toast.error("Please select your Ekurhuleni ward (1–112).");
       return;
     }
     if (!primaryRole) {
@@ -109,15 +105,14 @@ function RegisterPage() {
       rsa_id: rsaId,
       rsa_id_last4: rsaId.slice(-4),
       street_address: street.trim() || null,
-      city: city.trim() || null,
-      province,
+      city: area,
+      province: "Gauteng",
       is_registered_voter: isVoter,
       voting_district: isVoter ? district.trim() || null : null,
       ekurhuleni_ward: ward ? parseInt(ward, 10) : null,
       primary_role: primaryRole as never,
       industry_sector: industry || null,
       skills_keywords: skillsArr,
-      manifesto_alignment: quizComplete ? alignment : null,
       consent_given_at: new Date().toISOString(),
       consent_version: CONSENT_VERSION,
     });
