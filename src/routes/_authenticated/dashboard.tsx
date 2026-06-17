@@ -5,7 +5,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { ShieldCheck, MapPin, Vote, IdCard, Trash2, FolderOpen, AlertTriangle, Vote as VoteIcon, Users } from "lucide-react";
+import { ShieldCheck, MapPin, Vote, IdCard, Trash2, FolderOpen, AlertTriangle, Users, ListChecks } from "lucide-react";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
@@ -112,7 +112,7 @@ function Dashboard() {
           <QuickLink to="/vault" icon={FolderOpen} label="Opportunity Vault" sub="Upload CV / business profile" />
           <QuickLink to="/directory" icon={Users} label="Community Directory" sub="Browse member businesses" />
           <QuickLink to="/bottlenecks" icon={AlertTriangle} label="Escalation Desk" sub="Log a structural bottleneck" />
-          <QuickLink to="/issues" icon={VoteIcon} label="V.O.T.E. Booklets" sub="Vote on national issues" />
+          <QuickLink to="/manifesto-matcher" icon={ListChecks} label="Manifesto Matcher" sub="Match your views to ARA policy" />
         </div>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-3">
