@@ -91,9 +91,10 @@ function MatcherPage() {
             Where do you stand on Ekurhuleni?
           </h1>
           <p className="mt-3 text-muted-foreground">
-            {total} short statements on the municipal questions that matter. Pick
-            <strong> Agree</strong>, <strong>Neutral</strong>, <strong>Disagree</strong> or skip.
-            Mark statements as <strong>Double Weight</strong> if they're critical to you.
+            {total} short statements on the municipal questions that matter. Pick{" "}
+            <strong>Agree</strong>, <strong>Neutral</strong>, <strong>Disagree</strong> or
+            skip. Mark statements as <strong>Double Weight</strong> if they're critical to
+            you.
           </p>
         </div>
 
@@ -127,22 +128,19 @@ function MatcherPage() {
                   active={currentAnswer.choice === "agree"}
                   onClick={() => pick("agree")}
                   icon={<Check className="h-5 w-5" />}
-                  label="Stimme zu"
-                  sub="Agree"
+                  label="Agree"
                 />
                 <ChoiceBtn
                   active={currentAnswer.choice === "neutral"}
                   onClick={() => pick("neutral")}
                   icon={<Minus className="h-5 w-5" />}
                   label="Neutral"
-                  sub="Neutral"
                 />
                 <ChoiceBtn
                   active={currentAnswer.choice === "disagree"}
                   onClick={() => pick("disagree")}
                   icon={<X className="h-5 w-5" />}
-                  label="Stimme nicht zu"
-                  sub="Disagree"
+                  label="Disagree"
                 />
               </div>
 
@@ -153,7 +151,7 @@ function MatcherPage() {
                     onCheckedChange={(v) => toggleDoubled(!!v)}
                   />
                   <span className="text-sm font-bold uppercase tracking-widest">
-                    Thema verdoppeln · Double weight
+                    Double weight this issue
                   </span>
                 </label>
                 <button
@@ -162,7 +160,7 @@ function MatcherPage() {
                   className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-accent"
                 >
                   <SkipForward className="h-3.5 w-3.5" />
-                  Thema überspringen · Skip
+                  Skip statement
                 </button>
               </div>
             </article>
@@ -220,13 +218,11 @@ function ChoiceBtn({
   onClick,
   icon,
   label,
-  sub,
 }: {
   active: boolean;
   onClick: () => void;
   icon: React.ReactNode;
   label: string;
-  sub: string;
 }) {
   return (
     <button
@@ -240,7 +236,6 @@ function ChoiceBtn({
     >
       {icon}
       <span className="mt-1 text-sm font-black uppercase tracking-wide">{label}</span>
-      <span className="text-[10px] font-bold uppercase tracking-widest opacity-70">{sub}</span>
     </button>
   );
 }
