@@ -21,13 +21,18 @@ export function SiteFooter() {
           </ul>
         </div>
         <div>
-          <div className="text-xs font-bold uppercase tracking-widest text-accent">Compliance</div>
+          <div className="text-xs font-bold uppercase tracking-widest text-accent">Resources</div>
           <ul className="mt-3 space-y-2 text-sm">
             <li><Link to="/privacy" className="hover:text-accent">Privacy & POPIA</Link></li>
             <li><Link to="/terms" className="hover:text-accent">Terms & conditions</Link></li>
             <li>
               <a href="https://www.elections.org.za/" target="_blank" rel="noreferrer" className="hover:text-accent">
                 IEC South Africa
+              </a>
+            </li>
+            <li>
+              <a href="https://www.ekurhuleni.gov.za/" target="_blank" rel="noreferrer" className="hover:text-accent">
+                City of Ekurhuleni
               </a>
             </li>
           </ul>
