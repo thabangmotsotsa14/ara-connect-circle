@@ -5,7 +5,7 @@ export function SiteFooter() {
     <footer className="border-t border-border bg-foreground text-background">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-3">
         <div>
-          <div className="text-2xl font-black uppercase tracking-tight">ARAFIRST</div>
+          <div className="text-2xl font-black uppercase tracking-tight">Ekurhuleni First</div>
           <p className="mt-3 max-w-xs text-sm text-background/70">
             Africa Restoration Alliance — Ekurhuleni. A member platform for civic
             engagement, ward organising and transparent communication.

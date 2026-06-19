@@ -13,14 +13,14 @@ export const EKURHULENI_STATEMENTS: MatcherStatement[] = [
     id: "s1",
     theme: "Infrastructure",
     statement:
-      "The Metro must run aggressive, targeted infrastructure rehabilitation for critical roads and pothole hot zones in industrial and residential nodes over administrative building expansion.",
+      "The Metro must prioritize aggressive, targeted infrastructure rehabilitation for critical roads and pothole hot zones in industrial and residential nodes over administrative building expansion.",
     araPosition: "agree",
     justification:
       "ARA Ekurhuleni prioritises ratepayer-facing infrastructure (roads, stormwater, depots) over expanding municipal head-office footprints. Capital budgets must follow potholes, not boardrooms.",
   },
   {
     id: "s2",
-    theme: "Billing integrity",
+    theme: "Utility Debt",
     statement:
       "By-law enforcement units should immediately step up utility disconnections on high-debt commercial and residential properties to secure the city's billing integrity.",
     araPosition: "agree",
@@ -38,7 +38,7 @@ export const EKURHULENI_STATEMENTS: MatcherStatement[] = [
   },
   {
     id: "s4",
-    theme: "Service delivery",
+    theme: "Waste Management",
     statement:
       "The municipal administration should heavily expand public-private partnership contracts to handle local waste removal hubs and bypass depot gridlocks.",
     araPosition: "agree",
@@ -47,93 +47,30 @@ export const EKURHULENI_STATEMENTS: MatcherStatement[] = [
   },
   {
     id: "s5",
-    theme: "Water security",
+    theme: "Township Entrepreneurs & SMMEs",
     statement:
-      "Ekurhuleni must ring-fence a dedicated water-loss budget to fix burst mains and reservoir leaks in Tembisa, Katlehong and Vosloorus before approving any new vanity capital projects.",
+      "The City of Ekurhuleni must reserve a strict, minimum 30% quota of all municipal procurement and supply chain contracts exclusively for verified locally-owned township SMMEs and youth-led enterprises.",
     araPosition: "agree",
     justification:
-      "Non-revenue water losses bleed the metro daily. ARA Ekurhuleni would ring-fence repair budgets for the worst-affected township reticulation networks ahead of any discretionary spend.",
+      "ARA Ekurhuleni backs a hard 30% set-aside of metro procurement for verified township SMMEs and youth-led enterprises — published quarterly with bidder names and award values for full accountability.",
   },
   {
     id: "s6",
-    theme: "Electricity",
+    theme: "Youth Employment & Spaces",
     statement:
-      "The Metro should aggressively prosecute illegal connections and cable theft syndicates in industrial nodes like Wadeville, Isando and Springs to protect the city's electricity grid.",
+      "Underutilized municipal buildings and community centers should be systematically repurposed into digital hubs and free public co-working spaces equipped with high-speed internet to support job seekers and young remote micro-entrepreneurs.",
     araPosition: "agree",
     justification:
-      "Cable theft and illegal connections are a primary driver of load-shedding extensions across Ekurhuleni. ARA backs ring-fenced EMPD specialist units focused on the industrial corridors.",
+      "ARA wants dormant metro buildings turned into free Wi-Fi-enabled co-working and digital hubs for jobseekers, learners and micro-entrepreneurs — unlocking dead public assets for active youth opportunity.",
   },
   {
     id: "s7",
-    theme: "Public safety",
+    theme: "Education & Skills Alignment",
     statement:
-      "The Ekurhuleni Metro Police Department (EMPD) should be doubled in size and deployed visibly into hijacking and CIT hotspots in Kempton Park, Boksburg and Germiston.",
+      "The Metro's corporate bursary and work-integrated learning allocations must heavily favor technical, vocational, and artisan engineering fields over general administrative fields to bridge the local industrial skills gap.",
     araPosition: "agree",
     justification:
-      "ARA Ekurhuleni supports doubling visible EMPD deployment in documented crime hotspots, paired with body-cams and an independent civilian oversight panel.",
-  },
-  {
-    id: "s8",
-    theme: "Township economy",
-    statement:
-      "Spaza shops and SMMEs in Tembisa, Daveyton, Tsakane and KwaThema should get fast-tracked, low-cost trading licences instead of being shut down by by-law raids.",
-    araPosition: "agree",
-    justification:
-      "ARA recognises township SMMEs as the backbone of local employment. We back a 7-day fast-track licence regime over punitive raids that destroy livelihoods.",
-  },
-  {
-    id: "s9",
-    theme: "Transport",
-    statement:
-      "The Harambee BRT and feeder bus network should be expanded to connect Tembisa and Vosloorus directly to OR Tambo and the Kempton Park CBD, even if it raises the municipal subsidy.",
-    araPosition: "agree",
-    justification:
-      "Reliable public transport from townships to economic nodes is non-negotiable. ARA supports targeted Harambee expansion with transparent subsidy reporting per route.",
-  },
-  {
-    id: "s10",
-    theme: "Land use",
-    statement:
-      "Vacant municipal land along the R21 and N12 corridors should be released to verified developers for mixed-income housing rather than left to be invaded.",
-    araPosition: "agree",
-    justification:
-      "ARA favours auditable, transparent release of dormant municipal land for mixed-income housing — closing the door on land invasions and slow-tender paralysis.",
-  },
-  {
-    id: "s11",
-    theme: "Procurement",
-    statement:
-      "Every Ekurhuleni tender above R500 000 should be published in full — including bidders, scores and award reasons — on a public dashboard within 7 days of award.",
-    araPosition: "agree",
-    justification:
-      "Open contracting is core ARA policy. A 7-day public-disclosure rule is the single most effective deterrent against tender capture in the metro.",
-  },
-  {
-    id: "s12",
-    theme: "Councillor accountability",
-    statement:
-      "Ward councillors who miss more than three consecutive ward committee meetings should automatically forfeit their seat.",
-    araPosition: "agree",
-    justification:
-      "Ward councillors are the front line of service delivery. ARA backs a hard attendance rule with automatic recall to end ghost-councillor syndrome.",
-  },
-  {
-    id: "s13",
-    theme: "Youth",
-    statement:
-      "At least 30% of all Metro-funded learnerships and EPWP placements should be reserved for unemployed youth from Ekurhuleni townships.",
-    araPosition: "agree",
-    justification:
-      "ARA Ekurhuleni supports a hard 30% reservation for local township youth in metro-funded learnerships, with quarterly published placement audits.",
-  },
-  {
-    id: "s14",
-    theme: "Migration & by-laws",
-    statement:
-      "Spaza shops and informal traders operating in Ekurhuleni must comply with the same health, tax and licensing rules as any other business — regardless of the owner's nationality.",
-    araPosition: "agree",
-    justification:
-      "ARA insists on one rulebook for every trader in the metro — applied fairly and without xenophobia, but without exemptions.",
+      "ARA Ekurhuleni would redirect metro bursary and WIL allocations toward TVET, artisan and engineering pipelines — closing the skills gap that strands Ekurhuleni's industrial corridors short of welders, electricians and millwrights.",
   },
 ];
 
