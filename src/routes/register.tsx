@@ -90,6 +90,7 @@ function RegisterPage() {
     setSubmitting(true);
     const { data: u } = await supabase.auth.getUser();
     if (!u.user) {
+      setSubmitting(false);
       navigate({ to: "/auth" });
       return;
     }
@@ -105,7 +106,7 @@ function RegisterPage() {
       rsa_id: rsaId,
       rsa_id_last4: rsaId.slice(-4),
       street_address: street.trim() || null,
-      city: area,
+      city: area || "",
       province: "Gauteng",
       is_registered_voter: isVoter,
       voting_district: isVoter ? district.trim() || null : null,
@@ -116,18 +117,22 @@ function RegisterPage() {
       consent_given_at: new Date().toISOString(),
       consent_version: CONSENT_VERSION,
     });
-    if (!error && personas.length) {
-      // Replace existing attributes
-      await supabase.from("profile_attributes").delete().eq("profile_id", u.user.id);
-      await supabase.from("profile_attributes").insert(
-        personas.map((p) => ({ profile_id: u.user.id, attribute_type: "persona", attribute_value: p })),
-      );
-    }
-    setSubmitting(false);
     if (error) {
+      setSubmitting(false);
       toast.error(error.message);
       return;
     }
+    if (personas.length) {
+      try {
+        await supabase.from("profile_attributes").delete().eq("profile_id", u.user.id);
+        await supabase.from("profile_attributes").insert(
+          personas.map((p) => ({ profile_id: u.user.id, attribute_type: "persona", attribute_value: p })),
+        );
+      } catch {
+        // Non-fatal — profile is saved; personas can be re-edited from dashboard.
+      }
+    }
+    setSubmitting(false);
     toast.success("Welcome to ARA. Your membership is registered.");
     navigate({ to: "/dashboard" });
   }
