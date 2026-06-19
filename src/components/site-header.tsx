@@ -18,7 +18,7 @@ export function SiteHeader() {
             ARA
           </div>
           <span className="hidden text-sm font-bold uppercase tracking-wider sm:inline">
-            ARAFIRST
+            Ekurhuleni First
           </span>
         </Link>
         <nav className="hidden items-center gap-8 text-sm font-bold uppercase tracking-wide md:flex">
