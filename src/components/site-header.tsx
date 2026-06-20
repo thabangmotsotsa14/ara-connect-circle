@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useLowData } from "@/hooks/use-low-data";
 import { Switch } from "@/components/ui/switch";
 import { Wifi, WifiOff } from "lucide-react";
+import araLogo from "@/assets/ara-logo.png.asset.json";
 
 export function SiteHeader() {
   const { user } = useAuth();
@@ -14,9 +15,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
         <Link to="/" className="flex items-center gap-2">
-          <div className="flex h-9 w-9 items-center justify-center bg-foreground text-background font-black text-sm">
-            ARA
-          </div>
+          <img src={araLogo.url} alt="Africa Restoration Alliance" className="h-9 w-auto" />
           <span className="hidden text-sm font-bold uppercase tracking-wider sm:inline">
             Ekurhuleni First
           </span>
