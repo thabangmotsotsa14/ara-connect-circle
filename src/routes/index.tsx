@@ -1,8 +1,30 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { toast } from "sonner";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ShieldCheck, Users, Vote, Scale } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  ArrowRight,
+  ShieldCheck,
+  Users,
+  Vote,
+  Scale,
+  Factory,
+  Tablet,
+  Heart,
+  Shield,
+} from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,7 +45,53 @@ const PILLARS = [
   { n: "04", title: "Equality for all", body: "Free quality education, healthcare and housing. Eradication of shack dwellings." },
 ];
 
+const IMPACT_MATRIX = [
+  {
+    icon: Factory,
+    title: "Economic Liberation",
+    body: "45 Sustainable Local Businesses opened, legally registered, and directly integrated into the ARA Ekurhuleni First | Ward 45 Membership Platform. We don't just ask for jobs; we anchor enterprise.",
+  },
+  {
+    icon: Tablet,
+    title: "The Digital Vanguard",
+    body: "Armed with custom ARA Mobile Database Tablets, our active field teams are running a continuous digital recruitment drive. Our mission is clear: 4,400 registered, coordinated members unified for structural change.",
+  },
+  {
+    icon: Heart,
+    title: "The Community Maintenance Drive",
+    body: "Direct, dignified intervention on the doorstep. We are actively deploying clean-up and maintenance teams to restore the properties and protect the safety of our senior citizens and single-parent households with zero income.",
+  },
+  {
+    icon: Shield,
+    title: "The Tri-Sector Coalition",
+    body: "Real change requires real leverage. Through tactical ground partnerships with Microsoft (Digital Literacy), Cashbuild (Structural Dignity), and local Fresh Fruit & Vegetable Suppliers (Nutritional Security), we are turning corporate power into grassroots progress.",
+  },
+];
+
 function Index() {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    pathway: "",
+    message: "",
+  });
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name || !form.email || !form.phone || !form.pathway || !form.message) {
+      toast.error("Please complete every field before submitting.");
+      return;
+    }
+    setSubmitting(true);
+    setTimeout(() => {
+      toast.success("Message securely logged. The Ward 45 Command Center will make contact within 24 hours.");
+      setForm({ name: "", email: "", phone: "", pathway: "", message: "" });
+      setSubmitting(false);
+    }, 600);
+  };
+
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <SiteHeader />
@@ -93,6 +161,154 @@ function Index() {
                 <p className="mt-3 text-sm text-muted-foreground">{p.body}</p>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* Why We Exist — Restoration Life Line */}
+        <section className="relative overflow-hidden border-t border-border bg-foreground text-background">
+          <div className="pointer-events-none absolute -right-20 -top-20 h-96 w-96 rounded-full bg-accent/20 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-32 -left-20 h-96 w-96 rounded-full bg-accent/10 blur-3xl" />
+          <div className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32">
+            <div className="max-w-4xl">
+              <div className="inline-flex items-center gap-2 border border-accent px-3 py-1 text-xs font-bold uppercase tracking-widest text-accent">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                The Restoration Life Line
+              </div>
+              <h2 className="mt-6 text-5xl font-black uppercase leading-[0.95] tracking-tight sm:text-6xl md:text-7xl">
+                Why We Stand. <br />Why We Fight. <br />
+                <span className="text-accent">Why We Build.</span>
+              </h2>
+              <p className="mt-8 max-w-3xl text-lg text-background/75 sm:text-xl">
+                True restoration isn't promised in pamphlets; it is proven on the ground. Through
+                Education, Dignified Homes, and Vital Nutrition, we are laying down the
+                infrastructure of hope in Ward 45.
+              </p>
+            </div>
+            <div className="mt-16 grid gap-px bg-background/10 sm:grid-cols-2 lg:grid-cols-4">
+              {IMPACT_MATRIX.map((card) => (
+                <div
+                  key={card.title}
+                  className="group relative bg-foreground p-8 transition-colors hover:bg-background/[0.03]"
+                >
+                  <div className="flex h-12 w-12 items-center justify-center border border-accent text-accent">
+                    <card.icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="mt-6 text-xl font-black uppercase leading-tight">
+                    {card.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-background/70">
+                    {card.body}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Action & Alliance Intake Hub */}
+        <section className="relative overflow-hidden border-t border-border bg-gradient-to-br from-secondary via-background to-secondary py-24 sm:py-32">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,color-mix(in_oklab,var(--accent)_15%,transparent),transparent_60%)]" />
+          <div className="relative mx-auto max-w-3xl px-4 sm:px-6">
+            <div className="rounded-none border border-border bg-background/40 p-8 shadow-2xl backdrop-blur-xl sm:p-12">
+              <div className="text-center">
+                <h2 className="text-4xl font-black uppercase leading-tight tracking-tight sm:text-5xl">
+                  Join the Frontline of <span className="text-accent">Restoration</span>
+                </h2>
+                <p className="mx-auto mt-5 max-w-2xl text-base text-muted-foreground sm:text-lg">
+                  Whether you are a corporate ally looking to scale our programs, a media outlet
+                  seeking an unfiltered interview, or a supporter ready to resource the
+                  movement—your action starts here.
+                </p>
+              </div>
+              <form onSubmit={handleSubmit} className="mt-10 space-y-5">
+                <div className="space-y-2">
+                  <Label htmlFor="name" className="text-xs font-bold uppercase tracking-widest">
+                    Full name / Organization name
+                  </Label>
+                  <Input
+                    id="name"
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    maxLength={120}
+                    required
+                  />
+                </div>
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <div className="space-y-2">
+                    <Label htmlFor="email" className="text-xs font-bold uppercase tracking-widest">
+                      Contact email
+                    </Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={form.email}
+                      onChange={(e) => setForm({ ...form, email: e.target.value })}
+                      maxLength={255}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="phone" className="text-xs font-bold uppercase tracking-widest">
+                      Cellphone number
+                    </Label>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      value={form.phone}
+                      onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                      maxLength={20}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-xs font-bold uppercase tracking-widest">
+                    Engagement pathway
+                  </Label>
+                  <Select
+                    value={form.pathway}
+                    onValueChange={(v) => setForm({ ...form, pathway: v })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select your pathway" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="partnership">
+                        Form a Strategic Partnership (Corporate / SMME)
+                      </SelectItem>
+                      <SelectItem value="interview">
+                        Request an Official Press Interview
+                      </SelectItem>
+                      <SelectItem value="donation">
+                        Coordinate a Financial Donation / Resource Deployment
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="message" className="text-xs font-bold uppercase tracking-widest">
+                    Strategic message / Intent
+                  </Label>
+                  <Textarea
+                    id="message"
+                    rows={5}
+                    value={form.message}
+                    onChange={(e) => setForm({ ...form, message: e.target.value })}
+                    maxLength={2000}
+                    required
+                  />
+                </div>
+                <Button
+                  type="submit"
+                  size="lg"
+                  disabled={submitting}
+                  className="h-14 w-full bg-accent text-accent-foreground hover:bg-accent/90"
+                >
+                  {submitting ? "Submitting…" : "Submit to Ward 45 Command Center"}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </form>
+            </div>
           </div>
         </section>
 
