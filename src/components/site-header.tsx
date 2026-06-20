@@ -3,9 +3,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useLowData } from "@/hooks/use-low-data";
-import { Switch } from "@/components/ui/switch";
 import { Wifi, WifiOff } from "lucide-react";
-import araLogo from "@/assets/ara-logo.png.asset.json";
 
 export function SiteHeader() {
   const { user } = useAuth();
@@ -14,18 +12,30 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
+        
+        {/* Brand Identity Branding */}
         <Link to="/" className="flex items-center gap-2">
-          <img src={araLogo.url} alt="Africa Restoration Alliance" className="h-9 w-auto" />
+          <img 
+            src="https://ara-sa.org.za/wp-content/uploads/2023/04/cropped-ARA-LOGO-192x192.png" 
+            alt="Africa Restoration Alliance" 
+            className="h-10 w-10 object-contain" 
+          />
           <span className="hidden text-xs font-bold uppercase tracking-wider sm:inline md:text-sm">
             Ekurhuleni First <span className="mx-1 text-accent">|</span> Ward 45
           </span>
         </Link>
+        
+        {/* Desktop Navigation Links */}
         <nav className="hidden items-center gap-8 text-sm font-bold uppercase tracking-wide md:flex">
           <Link to="/" className="hover:text-accent">Home</Link>
           <Link to="/manifesto-matcher" className="hover:text-accent">Matcher</Link>
+          <Link to={"/party-intel" as any} className="hover:text-accent">Council Insights</Link>
           <Link to="/register" className="hover:text-accent">Join</Link>
         </nav>
+        
+        {/* Interface Utility Actions */}
         <div className="flex items-center gap-2">
+          {/* Bandwidth Constraints Toggle Button */}
           <button
             type="button"
             onClick={toggle}
@@ -35,6 +45,8 @@ export function SiteHeader() {
             {lowData ? <WifiOff className="h-3 w-3" /> : <Wifi className="h-3 w-3" />}
             {lowData ? "Lite" : "Full"}
           </button>
+          
+          {/* System Authentication State Machine */}
           {user ? (
             <>
               <Link to="/dashboard">
