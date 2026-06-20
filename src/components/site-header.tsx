@@ -16,8 +16,8 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
         <Link to="/" className="flex items-center gap-2">
           <img src={araLogo.url} alt="Africa Restoration Alliance" className="h-9 w-auto" />
-          <span className="hidden text-sm font-bold uppercase tracking-wider sm:inline">
-            Ekurhuleni First
+          <span className="hidden text-xs font-bold uppercase tracking-wider sm:inline md:text-sm">
+            Ekurhuleni First <span className="mx-1 text-accent">|</span> Ward 45
           </span>
         </Link>
         <nav className="hidden items-center gap-8 text-sm font-bold uppercase tracking-wide md:flex">
