@@ -173,7 +173,7 @@ function MembershipPage() {
             <Field label="Consent (Yes to use your personal information for Marketing Purposes)">
               <RadioGroup
                 className="flex gap-6"
-                value={form.marketing_consent ? "Yes" : form.marketing_consent === false && form.marketing_consent !== undefined ? "No" : ""}
+                value={form.marketing_consent ? "Yes" : "No"}
                 onValueChange={(v) => set("marketing_consent", v === "Yes")}
               >
                 <Radio v="Yes" /> <Radio v="No" />
