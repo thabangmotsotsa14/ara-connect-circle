@@ -129,6 +129,9 @@ export type Database = {
           residence_status: string | null
           status: string
           suburb: string | null
+          support_dignified_homes: boolean | null
+          support_education: boolean | null
+          support_nutrition_wellbeing: boolean | null
           updated_at: string
           voter_registration_status: string | null
           ward: string | null
@@ -158,6 +161,9 @@ export type Database = {
           residence_status?: string | null
           status?: string
           suburb?: string | null
+          support_dignified_homes?: boolean | null
+          support_education?: boolean | null
+          support_nutrition_wellbeing?: boolean | null
           updated_at?: string
           voter_registration_status?: string | null
           ward?: string | null
@@ -187,6 +193,9 @@ export type Database = {
           residence_status?: string | null
           status?: string
           suburb?: string | null
+          support_dignified_homes?: boolean | null
+          support_education?: boolean | null
+          support_nutrition_wellbeing?: boolean | null
           updated_at?: string
           voter_registration_status?: string | null
           ward?: string | null

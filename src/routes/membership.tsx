@@ -45,6 +45,9 @@ const schema = z.object({
   captured_by: z.string().trim().max(120).optional(),
   marketing_consent: z.boolean(),
   voter_registration_status: z.string().optional(),
+  support_education: z.enum(["Yes", "No"], { required_error: "Please answer: Are you for Education?" }),
+  support_dignified_homes: z.enum(["Yes", "No"], { required_error: "Please answer: Are you for Dignified Homes?" }),
+  support_nutrition_wellbeing: z.enum(["Yes", "No"], { required_error: "Please answer: Are you for Nutrition & Well-being?" }),
 });
 
 type FormState = z.input<typeof schema>;
@@ -56,6 +59,9 @@ const initial: FormState = {
   country: "South Africa", email: "", municipality: "City of Ekurhuleni",
   ward: "", ward_leader: "", captured_by: "", marketing_consent: false,
   voter_registration_status: "",
+  support_education: undefined as unknown as "Yes",
+  support_dignified_homes: undefined as unknown as "Yes",
+  support_nutrition_wellbeing: undefined as unknown as "Yes",
 };
 
 function MembershipPage() {
@@ -75,7 +81,12 @@ function MembershipPage() {
     }
     setSubmitting(true);
     const payload = Object.fromEntries(
-      Object.entries(parsed.data).map(([k, v]) => [k, v === "" ? null : v]),
+      Object.entries(parsed.data).map(([k, v]) => {
+        if (k === "support_education" || k === "support_dignified_homes" || k === "support_nutrition_wellbeing") {
+          return [k, v === "Yes"];
+        }
+        return [k, v === "" ? null : v];
+      }),
     );
     const { error } = await supabase.from("membership_applications").insert(payload as never);
     setSubmitting(false);
@@ -182,6 +193,24 @@ function MembershipPage() {
             <Field label="Voter Registration Status">
               <RadioGroup className="flex flex-wrap gap-6" value={form.voter_registration_status} onValueChange={(v) => set("voter_registration_status", v)}>
                 <Radio v="Registered Voter" /> <Radio v="Not Registered Voter" />
+              </RadioGroup>
+            </Field>
+          </Section>
+
+          <Section title="Your Priorities">
+            <Field label="Are you for Education?" required>
+              <RadioGroup className="flex gap-6" value={form.support_education} onValueChange={(v) => set("support_education", v as "Yes" | "No")}>
+                <Radio v="Yes" /> <Radio v="No" />
+              </RadioGroup>
+            </Field>
+            <Field label="Are you for Dignified Homes?" required>
+              <RadioGroup className="flex gap-6" value={form.support_dignified_homes} onValueChange={(v) => set("support_dignified_homes", v as "Yes" | "No")}>
+                <Radio v="Yes" /> <Radio v="No" />
+              </RadioGroup>
+            </Field>
+            <Field label="Are you for Nutrition & Well-being?" required>
+              <RadioGroup className="flex gap-6" value={form.support_nutrition_wellbeing} onValueChange={(v) => set("support_nutrition_wellbeing", v as "Yes" | "No")}>
+                <Radio v="Yes" /> <Radio v="No" />
               </RadioGroup>
             </Field>
           </Section>

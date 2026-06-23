@@ -16,7 +16,7 @@ export function SiteFooter() {
           </p>
           <div className="mt-4">
             <a
-              href="https://www.youtube.com/@AfricanRestorationAlliance"
+              href="https://www.youtube.com/channel/UCYyQN2Cn4QbfpG5GQIf_vrw"
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-accent hover:underline"

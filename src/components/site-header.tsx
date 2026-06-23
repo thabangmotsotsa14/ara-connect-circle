@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useLowData } from "@/hooks/use-low-data";
 import { Wifi, WifiOff } from "lucide-react";
+import araLogo from "@/assets/ara-logo.png.asset.json";
 
 export function SiteHeader() {
   const { user } = useAuth();
@@ -16,7 +17,7 @@ export function SiteHeader() {
         {/* Brand Identity Branding */}
         <Link to="/" className="flex items-center gap-2">
           <img 
-            src="https://ara-sa.org.za/wp-content/uploads/2023/04/cropped-ARA-LOGO-192x192.png" 
+            src={araLogo.url}
             alt="Africa Restoration Alliance" 
             className="h-10 w-10 object-contain" 
           />
@@ -29,13 +30,18 @@ export function SiteHeader() {
         <nav className="hidden items-center gap-8 text-sm font-bold uppercase tracking-wide md:flex">
           <Link to="/" className="hover:text-accent">Home</Link>
           <Link to="/manifesto-matcher" className="hover:text-accent">Matcher</Link>
-          <Link to={"/party-intel" as any} className="hover:text-accent">Council Insights</Link>
           <Link to="/register" className="hover:text-accent">Join</Link>
           <Link to="/membership" className="hover:text-accent">Membership</Link>
         </nav>
         
         {/* Interface Utility Actions */}
         <div className="flex items-center gap-2">
+          {/* Top-right brand mark */}
+          <img
+            src={araLogo.url}
+            alt="ARA"
+            className="hidden h-9 w-9 object-contain sm:block"
+          />
           {/* Bandwidth Constraints Toggle Button */}
           <button
             type="button"
