@@ -67,6 +67,7 @@ const initial: FormState = {
 function MembershipPage() {
   const [form, setForm] = useState<FormState>(initial);
   const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState<null | { name: string; email: string }>(null);
 
   function set<K extends keyof FormState>(k: K, v: FormState[K]) {
     setForm((f) => ({ ...f, [k]: v }));
@@ -94,14 +95,36 @@ function MembershipPage() {
       toast.error(error.message);
       return;
     }
-    toast.success("Membership application submitted. ARA will be in touch.");
+    toast.success("You're now registered as an ARA member.");
+    setSubmitted({ name: parsed.data.full_name, email: parsed.data.email });
     setForm(initial);
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <SiteHeader />
       <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-10 sm:px-6">
+        {submitted ? (
+          <div className="border border-border bg-card p-8 text-center shadow-sm">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[hsl(330_85%_55%)] text-3xl text-white">✓</div>
+            <h1 className="mt-6 text-3xl font-black uppercase tracking-tight text-foreground">
+              Welcome to ARA, {submitted.name.split(" ")[0]}!
+            </h1>
+            <p className="mx-auto mt-3 max-w-xl text-base text-muted-foreground">
+              Your membership application has been received and recorded. You are now registered as a member of the Africa Restoration Alliance. A ward organiser will be in touch using the contact details you provided ({submitted.email}).
+            </p>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+              <Button type="button" onClick={() => setSubmitted(null)} className="bg-[hsl(330_85%_55%)] text-white hover:bg-[hsl(330_85%_48%)]">
+                Register another member
+              </Button>
+              <Button type="button" variant="outline" asChild>
+                <a href="/">Back to home</a>
+              </Button>
+            </div>
+          </div>
+        ) : (
+        <>
         {/* Header banner */}
         <div className="overflow-hidden border border-border bg-[hsl(330_85%_55%)]">
           <div className="flex items-stretch">
