@@ -253,6 +253,8 @@ function MembershipPage() {
           <div>16688 Seinoli Street, Ext 26,<br />Vosloorus, 1475, Gauteng<br />Province, South Africa</div>
           <div className="text-right" />
         </div>
+        </>
+        )}
       </main>
       <SiteFooter />
     </div>
