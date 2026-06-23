@@ -104,6 +104,96 @@ export type Database = {
           },
         ]
       }
+      membership_applications: {
+        Row: {
+          address: string | null
+          captured_by: string | null
+          city: string | null
+          country: string | null
+          created_at: string
+          date_of_birth: string | null
+          email: string
+          full_name: string
+          gender: string | null
+          id: string
+          id_number: string | null
+          marital_status: string | null
+          marketing_consent: boolean
+          member_signature: string | null
+          mobile_no: string
+          municipality: string | null
+          nationality: string | null
+          postal_code: string | null
+          province: string | null
+          religion: string | null
+          residence_status: string | null
+          status: string
+          suburb: string | null
+          updated_at: string
+          voter_registration_status: string | null
+          ward: string | null
+          ward_leader: string | null
+        }
+        Insert: {
+          address?: string | null
+          captured_by?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          email: string
+          full_name: string
+          gender?: string | null
+          id?: string
+          id_number?: string | null
+          marital_status?: string | null
+          marketing_consent?: boolean
+          member_signature?: string | null
+          mobile_no: string
+          municipality?: string | null
+          nationality?: string | null
+          postal_code?: string | null
+          province?: string | null
+          religion?: string | null
+          residence_status?: string | null
+          status?: string
+          suburb?: string | null
+          updated_at?: string
+          voter_registration_status?: string | null
+          ward?: string | null
+          ward_leader?: string | null
+        }
+        Update: {
+          address?: string | null
+          captured_by?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          email?: string
+          full_name?: string
+          gender?: string | null
+          id?: string
+          id_number?: string | null
+          marital_status?: string | null
+          marketing_consent?: boolean
+          member_signature?: string | null
+          mobile_no?: string
+          municipality?: string | null
+          nationality?: string | null
+          postal_code?: string | null
+          province?: string | null
+          religion?: string | null
+          residence_status?: string | null
+          status?: string
+          suburb?: string | null
+          updated_at?: string
+          voter_registration_status?: string | null
+          ward?: string | null
+          ward_leader?: string | null
+        }
+        Relationships: []
+      }
       personal_bottlenecks: {
         Row: {
           category: string

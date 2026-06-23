@@ -31,6 +31,7 @@ export function SiteHeader() {
           <Link to="/manifesto-matcher" className="hover:text-accent">Matcher</Link>
           <Link to={"/party-intel" as any} className="hover:text-accent">Council Insights</Link>
           <Link to="/register" className="hover:text-accent">Join</Link>
+          <Link to="/membership" className="hover:text-accent">Membership</Link>
         </nav>
         
         {/* Interface Utility Actions */}
