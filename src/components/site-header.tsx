@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useLowData } from "@/hooks/use-low-data";
 import { Wifi, WifiOff } from "lucide-react";
-import araLogo from "@/assets/ara-logo.png.asset.json";
+import { BrandLogo } from "@/components/brand-logo";
 
 export function SiteHeader() {
   const { user } = useAuth();
@@ -16,11 +16,7 @@ export function SiteHeader() {
         
         {/* Brand Identity Branding */}
         <Link to="/" className="flex items-center gap-2">
-          <img 
-            src={araLogo.url}
-            alt="Africa Restoration Alliance" 
-            className="h-10 w-10 object-contain" 
-          />
+          <BrandLogo className="h-10 w-10 object-contain" />
           <span className="hidden text-xs font-bold uppercase tracking-wider sm:inline md:text-sm">
             Ekurhuleni First <span className="mx-1 text-accent">|</span> Ward 45
           </span>
@@ -37,11 +33,7 @@ export function SiteHeader() {
         {/* Interface Utility Actions */}
         <div className="flex items-center gap-2">
           {/* Top-right brand mark */}
-          <img
-            src={araLogo.url}
-            alt="ARA"
-            className="hidden h-9 w-9 object-contain sm:block"
-          />
+          <BrandLogo alt="ARA" className="hidden h-9 w-9 object-contain sm:block" />
           {/* Bandwidth Constraints Toggle Button */}
           <button
             type="button"
